@@ -9,8 +9,6 @@ class Stats extends Component {
 
   componentDidMount() {
     var self = this;
-    let question = {};
-
     console.log("1", this.state);
     database.ref("/poll").once("value", function(snapshot) {
       if (snapshot.val()) {
@@ -19,7 +17,7 @@ class Stats extends Component {
         var arr = Array.from(Object.keys(obj), k => obj[k]);
         var totalVote = 0;
         arr.map(prop => {
-          totalVote = totalVote + prop;
+         return totalVote = totalVote + prop;
         });
 
         var statsData = [];

@@ -3,7 +3,7 @@ import { database } from "../../assets/Firebase/Firebase.jsx";
 class Poll extends Component {
   constructor(props) {
     super(props);
-    this.state = { results: {}, loading: true, optionSelect: "", success: "" };
+    this.state = { results: {}, loading: true, optionSelect: "", success: "",isDisabled:false };
     this.componentDidMount = this.componentDidMount.bind(this);
     this.addOption = this.addOption.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
@@ -12,7 +12,7 @@ class Poll extends Component {
 
   componentDidMount() {
     var self = this;
-    let question = {};
+    
 
     console.log("1", this.state);
     database.ref("/questions").once("value", function(snapshot) {
@@ -29,6 +29,7 @@ class Poll extends Component {
         self.setState({ options: arr });
       }
       self.setState({ loading: false });
+      
     });
   }
 
@@ -49,8 +50,9 @@ class Poll extends Component {
     this.setState({ optionSelect: val });
   }
 
-  handleClick() {
+  handleClick(props) {
     let self = this;
+    self.setState({ isDisabled: true });
     database
       .ref("/poll/" + self.state.optionSelect)
       .once("value", function(snapshot) {
@@ -65,6 +67,7 @@ class Poll extends Component {
         const divStyle = {
           margin: "18px,0px,0px,0px"
         };
+       
         self.setState({
           success: (
             <div className="alert alert-success" style={divStyle}>
@@ -72,6 +75,7 @@ class Poll extends Component {
             </div>
           )
         });
+        self.props.history.push("/stats");
        
       });
   }
@@ -104,13 +108,25 @@ class Poll extends Component {
                     );
                   })}
                 </div>
+               {this.state.isDisabled === true?
                 <button
                   type="button"
+                  disabled ={this.state.isDisabled}
                   className="btn-fill pull-right btn btn-info"
                   onClick={() => this.handleClick()}
                 >
                   Vote
                 </button>
+                :
+                <button
+                  type="button"
+                 
+                  className="btn-fill pull-right btn btn-info"
+                  onClick={() => this.handleClick()}
+                >
+                  Vote
+                </button>
+                }
               </div>
             </div>
           ) : (
