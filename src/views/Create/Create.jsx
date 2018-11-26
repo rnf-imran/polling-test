@@ -92,7 +92,7 @@ componentDidMount(props){
 
 deleteQuestion(){
   
-  let data = {};
+  let data = [];
   //delete this.state.tdArray;
   database.ref('/questions/').set(data);
   database.ref('/options/').set(data);
@@ -116,7 +116,7 @@ deleteQuestion(){
                 ctTableResponsive
                 content={
                   <Table striped hover>
-                     {this.state.options.length>0?
+                     {this.state.options.length >0?
                     
                     <thead>
                       <tr>
