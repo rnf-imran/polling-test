@@ -97,7 +97,7 @@ deleteQuestion(){
   database.ref('/questions/').set(data);
   database.ref('/options/').set(data);
   database.ref('/poll/').set(data);
-  this.setState({options:data,question:data,loading:true});
+  this.setState({options:data,question:data,loading:false});
 } 
   render() {
  
